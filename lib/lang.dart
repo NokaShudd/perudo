@@ -58,6 +58,10 @@ class TextLang extends Translations {
           'orCalza': 'Or :',
           'calza': 'CALZA',
           'dudo': 'DUDO',
+          'gameDontExit': 'This game don\'t exist or has been deleted',
+          'wontSave': 'You won\'t be able to save using the web app',
+          'userName': 'You should change your name !',
+          'useAnyway': 'Continue nevertheless.'
         },
         'fr': {
           'home': 'Accueil',
@@ -115,6 +119,10 @@ class TextLang extends Translations {
           'orCalza': 'Ou :',
           'calza': 'CALZA',
           'dudo': 'DUDO',
+          'gameDontExit': 'La partie n\'existe pas ou à été supprimé',
+          'wontSave': 'Les changements ne seront pas enregistré',
+          'userName': 'Pensez à changer votre surnom !',
+          'useAnyway': 'Continuer quand même.'
         },
       };
 }

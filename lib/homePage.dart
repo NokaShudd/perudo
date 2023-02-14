@@ -354,9 +354,21 @@ class FirstScreen extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          FilledButton(onPressed: goToGames, child: Text('play'.tr)),
-          FilledButton(onPressed: () {}, child: Text('how2play'.tr)),
-          FilledButton.tonal(onPressed: () {}, child: Text('credit'.tr)),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: FilledButton(onPressed: goToGames, child: Text('play'.tr)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            child: FilledButton(onPressed: () {}, child: Text('how2play'.tr)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: FilledButton.tonal(
+              onPressed: () {},
+              child: Text('credit'.tr),
+            ),
+          ),
           const Spacer(flex: 2),
         ],
       ),

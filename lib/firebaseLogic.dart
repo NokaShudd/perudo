@@ -190,29 +190,6 @@ class FirebaseService {
     doc.update({'players': players, 'playersAlive': playersAlive - 1});
   }
 
-  void tempAddTwoPlayer(String gameId) async {
-    final doc = databaseReference.collection('game').doc(gameId);
-    final List players = await doc.get().then(
-          (value) => value.get('players') as List,
-        );
-
-    int playersAlive = await doc.get().then(
-          (value) => value.get('playersAlive'),
-        );
-    for (var element in ['a1', 'b2', 'c3']) {
-      players.add({
-        'userUid': element,
-        'alive': true,
-        'dices': [],
-        'name': element.toUpperCase(),
-        'lastSeenChat': DateTime.now(),
-        'unRead': 0,
-        'deadDices': 0,
-      });
-    }
-    doc.update({'players': players, 'playersAlive': playersAlive + 3});
-  }
-
   Future<void> play(int value, int number, String userId, String gameId) async {
     final doc = databaseReference.collection('game').doc(gameId);
 
@@ -312,15 +289,17 @@ class FirebaseService {
         player['dices'] = getDices(data['maxDice'] - player['deadDices']);
         newPlayers.add(element);
       }
-      await doc.update({
-        'checking': false,
-        'players': newPlayers,
-        'turn': (data['turn'] - 1) % data['players'].length,
-        'deadDiceCount': deadDiceCount + 1,
-        'lastGuess': {
-          'lastPlayerUid': false,
+      await doc.update(
+        {
+          'checking': false,
+          'players': newPlayers,
+          'turn': (data['turn'] - 1) % data['players'].length,
+          'deadDiceCount': deadDiceCount + 1,
+          'lastGuess': {
+            'lastPlayerUid': null,
+          },
         },
-      });
+      );
     }
   }
 
