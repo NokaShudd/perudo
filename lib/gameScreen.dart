@@ -114,7 +114,7 @@ class _GamePageState extends State<GamePage> {
     return StreamBuilder(
         stream: firebaseService.getGame(gameID!),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || snapshot.data!.data() == null) {
             return Scaffold(
               body: Center(
                 child: Column(
@@ -158,12 +158,6 @@ class _GamePageState extends State<GamePage> {
                         },
                         child: Text('start'.tr),
                       ),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {
-                        firebaseService.tempAddTwoPlayer(gameID!);
-                      },
-                      child: Text("Add two player"),
                     ),
                     OutlinedButton(
                       onPressed: () {
@@ -277,7 +271,7 @@ class _InGameWidgetState extends State<InGameWidget> {
             },
             child: const FaIcon(FontAwesomeIcons.paperPlane),
           ),
-          backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: Stack(
             children: [
               Positioned(
@@ -339,9 +333,8 @@ class _InGameWidgetState extends State<InGameWidget> {
                                   widget.players[index]['name'],
                                   overflow: TextOverflow.fade,
                                   style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onInverseSurface,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                               ),
@@ -362,7 +355,7 @@ class _InGameWidgetState extends State<InGameWidget> {
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onInverseSurface,
+                                                .onSurface,
                                           ),
                                         ),
                                       ),
@@ -382,7 +375,7 @@ class _InGameWidgetState extends State<InGameWidget> {
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onInverseSurface,
+                                                .onSurface,
                                           ),
                                         ),
                                       ),
@@ -415,8 +408,7 @@ class _InGameWidgetState extends State<InGameWidget> {
                           name,
                           overflow: TextOverflow.fade,
                           style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -514,8 +506,8 @@ class _InGameWidgetState extends State<InGameWidget> {
                 ),
               ),
               Positioned(
-                bottom: MediaQuery.of(context).size.width * 0.05,
-                height: MediaQuery.of(context).size.width * 0.2,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                height: MediaQuery.of(context).size.height * 0.05,
                 left: 0,
                 right: 0,
                 child: Center(
@@ -544,8 +536,7 @@ class _InGameWidgetState extends State<InGameWidget> {
                         child: Text(
                           'quit'.tr,
                           style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),

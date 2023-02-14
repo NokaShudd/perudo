@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,21 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: (index == 1)
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.pushNamed(context, 'createGame');
+                if (name == 'Player') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('userName'.tr),
+                      action: SnackBarAction(
+                        label: 'useAnyway'.tr,
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'createGame');
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.pushNamed(context, 'createGame');
+                }
               },
               child: const FaIcon(FontAwesomeIcons.plus),
             )
@@ -82,6 +97,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        if (kIsWeb) Text('wontSave'.tr),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 5.0),
           child: ListTile(
@@ -225,26 +241,90 @@ class SecondScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: (snapshot.hasData ? snapshot.data!.docs.length : 0),
             itemBuilder: (context, index) {
-              final data =
-                  snapshot.data!.docs[index].data() as Map<String, dynamic>;
-              return ListTile(
-                onTap: () {
-                  gameID = snapshot.data!.docs[index].id;
-                  firebaseService.joinGame(gameID!, user!.uid);
-                  Navigator.pushNamed(context, 'game');
-                },
-                title: Text(data["name"]),
-                leading: data["isPublic"]
-                    ? const FaIcon(FontAwesomeIcons.lockOpen)
-                    : const FaIcon(FontAwesomeIcons.lock),
-                trailing: Text(
-                  "${'place_left'.tr} ${data["playersAlive"]}"
-                  "/${data["maxPlayer"]}",
-                ),
+              return GameTileWidget(
+                firebaseService: firebaseService,
+                data: snapshot.data!.docs[index].data() as Map<String, dynamic>,
+                snapshot: snapshot,
+                index: index,
               );
             },
           );
         });
+  }
+}
+
+class GameTileWidget extends StatefulWidget {
+  const GameTileWidget({
+    super.key,
+    required this.firebaseService,
+    required this.data,
+    required this.snapshot,
+    required this.index,
+  });
+
+  final FirebaseService firebaseService;
+  final Map<String, dynamic> data;
+  final snapshot;
+  final int index;
+
+  @override
+  State<GameTileWidget> createState() => _GameTileWidgetState();
+}
+
+class _GameTileWidgetState extends State<GameTileWidget> {
+  bool showPassWord = false;
+
+  void joinGame() {
+    if (!widget.data['isPublic']) {
+      setState(() {
+        showPassWord = !showPassWord;
+      });
+      return;
+    }
+    gameID = widget.snapshot.data!.docs[widget.index].id;
+    widget.firebaseService.joinGame(gameID!, user!.uid);
+    Navigator.pushNamed(context, 'game');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        if (name == 'Player') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('userName'.tr),
+              action: SnackBarAction(
+                label: 'useAnyway'.tr,
+                onPressed: joinGame,
+              ),
+            ),
+          );
+        } else {
+          joinGame();
+        }
+      },
+      subtitle: (showPassWord)
+          ? TextField(
+              onSubmitted: (String txt) {
+                print(txt);
+                if (txt.trim() == widget.data['password']) {
+                  gameID = widget.snapshot.data!.docs[widget.index].id;
+                  widget.firebaseService.joinGame(gameID!, user!.uid);
+                  Navigator.pushNamed(context, 'game');
+                }
+              },
+            )
+          : null,
+      title: Text(widget.data["name"]),
+      leading: widget.data["isPublic"]
+          ? const FaIcon(FontAwesomeIcons.lockOpen)
+          : const FaIcon(FontAwesomeIcons.lock),
+      trailing: Text(
+        "${'place_left'.tr} ${widget.data["playersAlive"]}"
+        "/${widget.data["maxPlayer"]}",
+      ),
+    );
   }
 }
 
