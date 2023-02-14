@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "327357602024",
+    "project_id": "perudo-5cd87",
+    "storage_bucket": "perudo-5cd87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327357602024:android:6629d5bf6eba61a2aad15d",
+        "android_client_info": {
+          "package_name": "com.example.perudo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327357602024-619ab3jduhvfv7kdmjbl61e3j2odtbli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdebKXmq5WEdOlonIFK4thfAgqA9railQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327357602024-619ab3jduhvfv7kdmjbl61e3j2odtbli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
