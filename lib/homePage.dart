@@ -97,7 +97,13 @@ class _ThirdScreenState extends State<ThirdScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        if (kIsWeb) Text('wontSave'.tr),
+        if (kIsWeb)
+          Center(
+            child: Text(
+              'wontSave'.tr,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 5.0),
           child: ListTile(
@@ -307,7 +313,6 @@ class _GameTileWidgetState extends State<GameTileWidget> {
       subtitle: (showPassWord)
           ? TextField(
               onSubmitted: (String txt) {
-                print(txt);
                 if (txt.trim() == widget.data['password']) {
                   gameID = widget.snapshot.data!.docs[widget.index].id;
                   widget.firebaseService.joinGame(gameID!, user!.uid);

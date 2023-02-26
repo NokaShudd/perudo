@@ -148,12 +148,11 @@ class _GamePageState extends State<GamePage> {
                       ' ${data['playersAlive']}/${data['maxPlayer']}',
                     ),
                     Visibility(
-                      visible: canStart,
+                      visible: canStart && isMod,
                       child: FilledButton.tonal(
                         onPressed: () async {
-                          if (isMod) {
-                            await firebaseService.launchGame(data, gameID!);
-                          }
+                          await firebaseService.launchGame(data, gameID!);
+
                           firebaseService.startGame(gameID!);
                         },
                         child: Text('start'.tr),
