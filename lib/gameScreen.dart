@@ -392,11 +392,12 @@ class _InGameWidgetState extends State<InGameWidget> {
                   children: [
                     Row(
                       children: player['dices']
-                          .map((e) => Image(
-                                image: diceImage[e],
-                                height: 25.0,
-                                width: 25.0,
-                              ))
+                          .map(
+                            (e) => (Theme.of(context).brightness ==
+                                    Brightness.light)
+                                ? diceImage[e]
+                                : diceImageBlack[e],
+                          )
                           .toList()
                           .cast<Widget>(),
                     ),
@@ -459,16 +460,17 @@ class _InGameWidgetState extends State<InGameWidget> {
                                       widget.size.width)
                                   ? Iterable.generate(
                                       widget.data['lastGuess']['number'],
-                                      (_) => Image(
-                                        height: 40,
-                                        width: 40,
-                                        image: diceImage[
-                                            widget.data['lastGuess']['value']],
-                                      ),
+                                      (_) => (Theme.of(context).brightness ==
+                                              Brightness.light)
+                                          ? diceImage[widget.data['lastGuess']
+                                              ['value']]
+                                          : diceImageBlack[widget
+                                              .data['lastGuess']['value']],
                                     ).toList()
                                   : [
                                       Text(
-                                        '${widget.data['lastGuess']['number']}x',
+                                        '${widget.data['lastGuess']['number']}'
+                                        'x',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineMedium!
@@ -478,12 +480,12 @@ class _InGameWidgetState extends State<InGameWidget> {
                                                   .onSecondaryContainer,
                                             ),
                                       ),
-                                      Image(
-                                        image: diceImage[
-                                            widget.data['lastGuess']['value']],
-                                        height: 40,
-                                        width: 40,
-                                      ),
+                                      (Theme.of(context).brightness ==
+                                              Brightness.light)
+                                          ? diceImage[widget.data['lastGuess']
+                                              ['value']]
+                                          : diceImageBlack[widget
+                                              .data['lastGuess']['value']],
                                     ],
                             ),
                           )
@@ -809,11 +811,10 @@ class _ChoiceWidgetState extends State<ChoiceWidget> {
                             value = index;
                           });
                         },
-                        child: Image(
-                          image: diceImage[index],
-                          height: 40,
-                          width: 40,
-                        ),
+                        child:
+                            (Theme.of(context).brightness == Brightness.light)
+                                ? diceImage[index]
+                                : diceImageBlack[index],
                       ),
                     ).toList(),
                   ),
@@ -887,11 +888,11 @@ class DicesVertWidget extends StatelessWidget {
       List dices = widget.players[index]['dices'];
       return Row(
         children: dices
-            .map((e) => Image(
-                  image: diceImage[e],
-                  height: 15.0,
-                  width: 15.0,
-                ))
+            .map(
+              (e) => (Theme.of(context).brightness == Brightness.light)
+                  ? diceImage[e]
+                  : diceImageBlack[e],
+            )
             .toList()
             .cast<Widget>(),
       );
@@ -930,11 +931,11 @@ class DicesWidget extends StatelessWidget {
     if (widget.data['checking']) {
       return Column(
         children: widget.players[index]['dices']
-            .map((e) => Image(
-                  image: diceImage[e],
-                  height: 15.0,
-                  width: 15.0,
-                ))
+            .map(
+              (e) => (Theme.of(context).brightness == Brightness.light)
+                  ? diceImage[e]
+                  : diceImageBlack[e],
+            )
             .toList()
             .cast<Widget>(),
       );

@@ -347,10 +347,7 @@ class FirstScreen extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(flex: 2),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30.0),
-            child: Image(image: diceImage[0]),
-          ),
+          const GameLogoWidget(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
@@ -376,6 +373,36 @@ class FirstScreen extends StatelessWidget {
           ),
           const Spacer(flex: 2),
         ],
+      ),
+    );
+  }
+}
+
+class GameLogoWidget extends StatefulWidget {
+  const GameLogoWidget({
+    super.key,
+  });
+
+  @override
+  State<GameLogoWidget> createState() => _GameLogoWidgetState();
+}
+
+class _GameLogoWidgetState extends State<GameLogoWidget> {
+  int index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30.0),
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: () {
+          setState(() => index = (index + 1) % 6);
+        },
+        child: (Theme.of(context).brightness == Brightness.light)
+            ? diceImage[index]
+            : diceImageBlack[index],
       ),
     );
   }

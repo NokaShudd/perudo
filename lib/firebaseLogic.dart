@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,13 +12,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 String name = "Player";
 String? gameID;
 
-List<ImageProvider> diceImage = const [
-  AssetImage('assets/images/D1.png'),
-  AssetImage('assets/images/D2.png'),
-  AssetImage('assets/images/D3.png'),
-  AssetImage('assets/images/D4.png'),
-  AssetImage('assets/images/D5.png'),
-  AssetImage('assets/images/D6.png'),
+List<Widget> diceImage = [
+  SvgPicture.asset('assets/images/dice1bis.svg'),
+  // SvgPicture.asset('assets/images/dice1.svg'),
+  SvgPicture.asset('assets/images/dice2.svg'),
+  SvgPicture.asset('assets/images/dice3.svg'),
+  SvgPicture.asset('assets/images/dice4.svg'),
+  SvgPicture.asset('assets/images/dice5.svg'),
+  SvgPicture.asset('assets/images/dice6.svg'),
+];
+
+List<Widget> diceImageBlack = [
+  // SvgPicture.asset('assets/images/dice1back.svg'),
+  SvgPicture.asset('assets/images/dice1bisback.svg'),
+  SvgPicture.asset('assets/images/dice2back.svg'),
+  SvgPicture.asset('assets/images/dice3back.svg'),
+  SvgPicture.asset('assets/images/dice4back.svg'),
+  SvgPicture.asset('assets/images/dice5back.svg'),
+  SvgPicture.asset('assets/images/dice6back.svg'),
 ];
 
 List<Color> allColors = [
@@ -144,7 +156,9 @@ class FirebaseService {
     int numbDices = data['maxDice'];
 
     for (var element in data['players']) {
-      element['dices'] = getDices(numbDices);
+      element['dices'] = getDices(
+        numbDices,
+      );
     }
 
     order.shuffle();
