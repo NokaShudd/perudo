@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'firebaseLogic.dart';
@@ -95,128 +96,132 @@ class _ThirdScreenState extends State<ThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (kIsWeb)
-          Center(
-            child: Text(
-              'wontSave'.tr,
-              style: const TextStyle(color: Colors.red),
+    return Container(
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.height),
+      child: ListView(
+        children: [
+          if (kIsWeb)
+            Center(
+              child: Text(
+                'wontSave'.tr,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 5.0),
+            child: ListTile(
+              subtitle: Text(
+                'settingsList'.tr,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 5.0),
-          child: ListTile(
-            subtitle: Text(
-              'settingsList'.tr,
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-          ),
-        ),
-        ListTile(
-          title: Text('name'.tr),
-          subtitle: TextField(
-            controller: nameController,
-            onSubmitted: (newString) {
-              if (newString.isNotEmpty) {
-                setState(() {
-                  name = newString;
-                });
-                writeData();
-              }
-            },
-          ),
-        ),
-        ListTile(
-          title: Text('lang'.tr),
-          subtitle: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0),
-            child: SegmentedButton<String>(
-              selected: <String>{currentTheme!.lang},
-              segments: [
-                ButtonSegment(value: 'fr', label: Text('fr'.tr)),
-                ButtonSegment(value: 'en', label: Text('en'.tr)),
-              ],
-              onSelectionChanged: (selection) {
-                setState(() {
-                  currentTheme = QuickTheme(
-                    brightness: currentTheme!.brightness,
-                    color: currentTheme!.color,
-                    lang: selection.first,
-                  );
-                });
-                Get.updateLocale(Locale(selection.first));
-                writeData();
+          ListTile(
+            title: Text('name'.tr),
+            subtitle: TextField(
+              controller: nameController,
+              onSubmitted: (newString) {
+                if (newString.isNotEmpty) {
+                  setState(() {
+                    name = newString;
+                  });
+                  writeData();
+                }
               },
             ),
           ),
-        ),
-        ListTile(
-          title: Text('brightness'.tr),
-          subtitle: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0),
-            child: SegmentedButton<ThemeMode>(
-              selected: <ThemeMode>{currentTheme!.brightness},
-              segments: [
-                ButtonSegment(
-                    value: ThemeMode.system, label: Text('system'.tr)),
-                ButtonSegment(value: ThemeMode.light, label: Text('light'.tr)),
-                ButtonSegment(value: ThemeMode.dark, label: Text('dark'.tr)),
-              ],
-              onSelectionChanged: (selection) {
-                setState(() {
-                  currentTheme = QuickTheme(
-                    brightness: selection.first,
-                    color: currentTheme!.color,
-                    lang: currentTheme!.lang,
-                  );
-                });
-
-                quickTheme.add(currentTheme!);
-                writeData();
-              },
+          ListTile(
+            title: Text('lang'.tr),
+            subtitle: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: SegmentedButton<String>(
+                selected: <String>{currentTheme!.lang},
+                segments: [
+                  ButtonSegment(value: 'fr', label: Text('fr'.tr)),
+                  ButtonSegment(value: 'en', label: Text('en'.tr)),
+                ],
+                onSelectionChanged: (selection) {
+                  setState(() {
+                    currentTheme = QuickTheme(
+                      brightness: currentTheme!.brightness,
+                      color: currentTheme!.color,
+                      lang: selection.first,
+                    );
+                  });
+                  Get.updateLocale(Locale(selection.first));
+                  writeData();
+                },
+              ),
             ),
           ),
-        ),
-        ListTile(
-          title: Text("lightColor".tr),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: allColors
-                      .map(
-                        (e) => InkWell(
-                          onTap: () {
-                            setState(() {
-                              currentTheme = QuickTheme(
-                                color: e,
-                                brightness: currentTheme!.brightness,
-                                lang: currentTheme!.lang,
-                              );
-                            });
+          ListTile(
+            title: Text('brightness'.tr),
+            subtitle: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: SegmentedButton<ThemeMode>(
+                selected: <ThemeMode>{currentTheme!.brightness},
+                segments: [
+                  ButtonSegment(
+                      value: ThemeMode.system, label: Text('system'.tr)),
+                  ButtonSegment(
+                      value: ThemeMode.light, label: Text('light'.tr)),
+                  ButtonSegment(value: ThemeMode.dark, label: Text('dark'.tr)),
+                ],
+                onSelectionChanged: (selection) {
+                  setState(() {
+                    currentTheme = QuickTheme(
+                      brightness: selection.first,
+                      color: currentTheme!.color,
+                      lang: currentTheme!.lang,
+                    );
+                  });
 
-                            quickTheme.add(currentTheme!);
-                            writeData();
-                          },
-                          child: Container(
-                            color: e,
-                            height: 25,
-                            width: (MediaQuery.of(context).size.width - 32) /
-                                allColors.length,
+                  quickTheme.add(currentTheme!);
+                  writeData();
+                },
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text("lightColor".tr),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: allColors
+                        .map(
+                          (e) => InkWell(
+                            onTap: () {
+                              setState(() {
+                                currentTheme = QuickTheme(
+                                  color: e,
+                                  brightness: currentTheme!.brightness,
+                                  lang: currentTheme!.lang,
+                                );
+                              });
+
+                              quickTheme.add(currentTheme!);
+                              writeData();
+                            },
+                            child: Container(
+                              color: e,
+                              height: 25,
+                              width: (MediaQuery.of(context).size.width - 32) /
+                                  allColors.length,
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -401,8 +406,8 @@ class _GameLogoWidgetState extends State<GameLogoWidget> {
           setState(() => index = (index + 1) % 6);
         },
         child: (Theme.of(context).brightness == Brightness.light)
-            ? diceImage[index]
-            : diceImageBlack[index],
+            ? SvgPicture.asset(diceImage[index])
+            : SvgPicture.asset(diceImageBlack[index]),
       ),
     );
   }

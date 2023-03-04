@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'firebaseLogic.dart';
@@ -395,8 +397,16 @@ class _InGameWidgetState extends State<InGameWidget> {
                           .map(
                             (e) => (Theme.of(context).brightness ==
                                     Brightness.light)
-                                ? diceImage[e]
-                                : diceImageBlack[e],
+                                ? SvgPicture.asset(
+                                    diceImage[e],
+                                    height: 25,
+                                    width: 25,
+                                  )
+                                : SvgPicture.asset(
+                                    diceImageBlack[e],
+                                    height: 25,
+                                    width: 25,
+                                  ),
                           )
                           .toList()
                           .cast<Widget>(),
@@ -462,10 +472,18 @@ class _InGameWidgetState extends State<InGameWidget> {
                                       widget.data['lastGuess']['number'],
                                       (_) => (Theme.of(context).brightness ==
                                               Brightness.light)
-                                          ? diceImage[widget.data['lastGuess']
-                                              ['value']]
-                                          : diceImageBlack[widget
-                                              .data['lastGuess']['value']],
+                                          ? SvgPicture.asset(
+                                              diceImage[widget.data['lastGuess']
+                                                  ['value']],
+                                              height: 40,
+                                              width: 40,
+                                            )
+                                          : SvgPicture.asset(
+                                              diceImageBlack[widget
+                                                  .data['lastGuess']['value']],
+                                              height: 40,
+                                              width: 40,
+                                            ),
                                     ).toList()
                                   : [
                                       Text(
@@ -482,10 +500,18 @@ class _InGameWidgetState extends State<InGameWidget> {
                                       ),
                                       (Theme.of(context).brightness ==
                                               Brightness.light)
-                                          ? diceImage[widget.data['lastGuess']
-                                              ['value']]
-                                          : diceImageBlack[widget
-                                              .data['lastGuess']['value']],
+                                          ? SvgPicture.asset(
+                                              diceImage[widget.data['lastGuess']
+                                                  ['value']],
+                                              height: 40,
+                                              width: 40,
+                                            )
+                                          : SvgPicture.asset(
+                                              diceImageBlack[widget
+                                                  .data['lastGuess']['value']],
+                                              height: 40,
+                                              width: 40,
+                                            ),
                                     ],
                             ),
                           )
@@ -813,8 +839,16 @@ class _ChoiceWidgetState extends State<ChoiceWidget> {
                         },
                         child:
                             (Theme.of(context).brightness == Brightness.light)
-                                ? diceImage[index]
-                                : diceImageBlack[index],
+                                ? SvgPicture.asset(
+                                    diceImage[index],
+                                    height: 15,
+                                    width: 15,
+                                  )
+                                : SvgPicture.asset(
+                                    diceImageBlack[index],
+                                    height: 15,
+                                    width: 15,
+                                  ),
                       ),
                     ).toList(),
                   ),
@@ -890,8 +924,16 @@ class DicesVertWidget extends StatelessWidget {
         children: dices
             .map(
               (e) => (Theme.of(context).brightness == Brightness.light)
-                  ? diceImage[e]
-                  : diceImageBlack[e],
+                  ? SvgPicture.asset(
+                      diceImage[e],
+                      height: 15,
+                      width: 15,
+                    )
+                  : SvgPicture.asset(
+                      diceImageBlack[e],
+                      height: 15,
+                      width: 15,
+                    ),
             )
             .toList()
             .cast<Widget>(),
@@ -933,8 +975,16 @@ class DicesWidget extends StatelessWidget {
         children: widget.players[index]['dices']
             .map(
               (e) => (Theme.of(context).brightness == Brightness.light)
-                  ? diceImage[e]
-                  : diceImageBlack[e],
+                  ? SvgPicture.asset(
+                      diceImage[e],
+                      height: 15,
+                      width: 15,
+                    )
+                  : SvgPicture.asset(
+                      diceImageBlack[e],
+                      height: 15,
+                      width: 15,
+                    ),
             )
             .toList()
             .cast<Widget>(),

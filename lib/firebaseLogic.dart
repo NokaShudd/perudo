@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,24 +11,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 String name = "Player";
 String? gameID;
 
-List<Widget> diceImage = [
-  SvgPicture.asset('assets/images/dice1bis.svg'),
+List<String> diceImage = [
+  'assets/images/dice1bis.svg',
   // SvgPicture.asset('assets/images/dice1.svg'),
-  SvgPicture.asset('assets/images/dice2.svg'),
-  SvgPicture.asset('assets/images/dice3.svg'),
-  SvgPicture.asset('assets/images/dice4.svg'),
-  SvgPicture.asset('assets/images/dice5.svg'),
-  SvgPicture.asset('assets/images/dice6.svg'),
+  'assets/images/dice2.svg',
+  'assets/images/dice3.svg',
+  'assets/images/dice4.svg',
+  'assets/images/dice5.svg',
+  'assets/images/dice6.svg',
 ];
 
-List<Widget> diceImageBlack = [
+List<String> diceImageBlack = [
   // SvgPicture.asset('assets/images/dice1back.svg'),
-  SvgPicture.asset('assets/images/dice1bisback.svg'),
-  SvgPicture.asset('assets/images/dice2back.svg'),
-  SvgPicture.asset('assets/images/dice3back.svg'),
-  SvgPicture.asset('assets/images/dice4back.svg'),
-  SvgPicture.asset('assets/images/dice5back.svg'),
-  SvgPicture.asset('assets/images/dice6back.svg'),
+  'assets/images/dice1bisback.svg',
+  'assets/images/dice2back.svg',
+  'assets/images/dice3back.svg',
+  'assets/images/dice4back.svg',
+  'assets/images/dice5back.svg',
+  'assets/images/dice6back.svg',
 ];
 
 List<Color> allColors = [
@@ -200,6 +199,7 @@ class FirebaseService {
     if (playersAlive <= 0) {
       playersAlive = 1;
       deleteGame(gameId);
+      return;
     }
     doc.update({'players': players, 'playersAlive': playersAlive - 1});
   }
