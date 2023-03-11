@@ -94,13 +94,21 @@ class ThirdScreen extends StatefulWidget {
 class _ThirdScreenState extends State<ThirdScreen> {
   TextEditingController nameController = TextEditingController(text: name);
 
+  double size = 0.0;
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size.width;
+    if (MediaQuery.of(context).size.height <
+        MediaQuery.of(context).size.width) {
+      size = MediaQuery.of(context).size.height;
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
         Container(
+          width: MediaQuery.of(context).size.width,
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.height,
           ),
@@ -216,9 +224,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                                 child: Container(
                                   color: e,
                                   height: 25,
-                                  width:
-                                      (MediaQuery.of(context).size.width - 32) /
-                                          allColors.length,
+                                  width: (size - 32) / allColors.length,
                                 ),
                               ),
                             )
